@@ -88,12 +88,21 @@ class StoryList {
   //async deleteStory(currentUser, story) {
   async deleteStory(story) {
     console.log("the story passed in was: " + story)
-    const response = await axios({
+    await axios({
       url: `${BASE_URL}/stories/${story.storyId}`,
       method: "DELETE",
       data: { token: currentUser.loginToken }
     });
-    console.log(response);
+    //try catch , await does nothing if not in try 
+
+    for (let idx = 0; idx < this.stories.length; idx++) {
+      if (this.stories[idx].storyId === story.storyId) {
+        this.stories.splice(idx, 1);
+        break;
+      }
+    }
+    //rebuild stories array with filter method 
+
   }
 
 

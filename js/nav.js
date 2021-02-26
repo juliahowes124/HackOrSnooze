@@ -52,3 +52,12 @@ function navFavoritesClick(evt) {
 $navFavorites.on("click", navFavoritesClick);
 
 
+//handle my stories being clicked on nav
+function navMyStoriesClick(evt) {
+  console.debug("navFavoritesClick", evt);
+  putMyStoriesOnPage();
+}
+
+$navMyStories.on("click", navMyStoriesClick);
+
+

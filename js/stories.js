@@ -26,7 +26,7 @@ function generateStoryMarkup(story) {
   return $(`
       <li id="${story.storyId}">
         <span>
-          <i class="fas fa-trash"></i>
+          <i class="fas fa-trash hidden"></i>
         </span>
         <i class="far fa-star"></i>
         <i class="fas fa-star"></i>
@@ -76,6 +76,30 @@ function putFavoritesOnPage() {
   $allStoriesList.show();
 }
 
+/** Gets own stories, generates their HTML, and puts on page. */
+
+function putMyStoriesOnPage() {
+  console.debug("putStoriesOnPage");
+
+  $allStoriesList.empty();
+
+  let myStories = storyList.stories.filter(story => story.username === currentUser.username);
+
+  // generate HTML for stories and append to stories list
+  for (let story of myStories) {
+    const $story = generateStoryMarkup(story);
+    updateStarIcon(story, $story);
+    $story.find('.fa-trash').removeClass('hidden'); // or create trash can
+    $allStoriesList.append($story);
+  }
+  $allStoriesList.show();
+}
+
+
+//could merge above two with input stories and a flag - not really worth it
+
+
+
 /** grabs form values, adds new story and prepends to list */
 async function handleStorySubmit(evt) {
   evt.preventDefault();
@@ -85,6 +109,8 @@ async function handleStorySubmit(evt) {
   let story = await storyList.addStory(currentUser, { author, title, url });
   const $story = generateStoryMarkup(story);
   $allStoriesList.prepend($story);
+  updateStarIcon(story, $story);
+  $storyForm.hide();
 }
 
 $storyForm.on('submit', handleStorySubmit);
@@ -127,10 +153,10 @@ function updateStarIcon(story, $story) {
 }
 
 function handleTrashClick(evt) {
-  //maybe 2 parents
-  let idToLookFor = $(evt.target).parent().parent().attr("id")
-  let storyToDelete = findStoryFromStoryId(idToLookFor)
-  storyList.deleteStory(storyToDelete)
+  let idToLookFor = $(evt.target).parent().parent().attr("id") //closest
+  let storyToDelete = findStoryFromStoryId(idToLookFor) // or storyList.stories.find()
+  storyList.deleteStory(storyToDelete);
+  $(evt.target).parent().parent().remove();
 }
 
 $allStoriesList.on('click', ".fa-trash", handleTrashClick);
