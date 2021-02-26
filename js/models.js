@@ -55,13 +55,24 @@ class StoryList {
     //  instance method?
 
     // query the /stories endpoint (no auth required)
-    const response = await axios({
-      url: `${BASE_URL}/stories`,
-      method: "GET",
-    });
+
+    let response; 
+
+    try {
+      response = await axios({
+        url: `${BASE_URL}/stories`,
+        method: "GET",
+      });
+    } catch (error) {
+      alert("You could not get stories from server!")
+      console.log(error);
+    }
+    
 
     // turn plain old story objects from API into instances of Story class
     const stories = response.data.stories.map(story => new Story(story));
+
+    console.log(stories)
 
     // build an instance of our own class using the new array of stories
     return new StoryList(stories);
