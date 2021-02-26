@@ -12,14 +12,14 @@ class Story {
    *   - {title, author, url, username, storyId, createdAt}
    */
 
-  constructor({ storyId, title, author, url, username, createdAt }) {
+  constructor({ storyId, title, author, url, username, createdAt, favorite = false }) {
     this.storyId = storyId;
     this.title = title;
     this.author = author;
     this.url = url;
     this.username = username;
     this.createdAt = createdAt;
-    this.favorite = false;
+    this.favorite = favorite;
   }
 
   /** Parses hostname out of URL and returns it. */
@@ -110,7 +110,7 @@ class User {
     this.createdAt = createdAt;
 
     // instantiate Story instances for the user's favorites and ownStories
-    this.favorites = favorites.map(s => new Story(s));
+    this.favorites = favorites.map(s => new Story({ ...s, favorite: true }));
     this.ownStories = ownStories.map(s => new Story(s));
 
     // store the login token on the user so it's easy to find for API calls.
@@ -201,44 +201,33 @@ class User {
   }
 
   async addFavorite(story) {
-    story.favorite = true;
-    this.favorites.push(story);
-
+    //try/catch 
     await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "POST",
       data: { token: this.loginToken },
     });
 
+    story.favorite = true;
+    this.favorites.push(story);
   }
 
   async deleteFavorite(story) {
-    story.favorite = false;
-
-    for (let idx = 0; idx < this.favorites.length; idx++) {
-      if (this.favorites[idx].storyId === story.storyId) {
-        this.favorites.splice(idx)
-        break;
-      }
-    }
-
+    //try catch
     await axios({
       url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
       method: "DELETE",
       data: { token: this.loginToken },
     });
+
+    story.favorite = false;
+    for (let idx = 0; idx < this.favorites.length; idx++) {
+      if (this.favorites[idx].storyId === story.storyId) {
+        this.favorites.splice(idx, 1);
+        break;
+      }
+    }
   }
-
-  // currentUserPopulateFavorites() {
-  //   for (let i = 0; i < this.favorites.length; i++) {
-  //     for (let j = 0; j < storyList.length; j++) {
-  //       if (this.favorites[i].storyId === storyList[j].storyId) {
-  //         storyList.favorite = true;
-  //       }
-  //     }
-  //   }
-  // }
-
 }
 
 

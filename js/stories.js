@@ -21,11 +21,12 @@ async function getAndShowStoriesOnStart() {
 
 function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
-
+  //TODO: CHANGE TO ONE ICON CHANGE FAR/FAS CLASS
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}" data-story="${story}">
         <i class="far fa-star"></i>
+        <i class="fas fa-star"></i>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -46,6 +47,7 @@ function putStoriesOnPage() {
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
+    updateStarIcon(story, $story);
     $allStoriesList.append($story);
   }
 
@@ -59,14 +61,14 @@ function putFavoritesOnPage() {
 
   $allStoriesList.empty();
 
-  let favorited = storyList.stories.filter(el => el.favorite);
+  let favorited = storyList.stories.filter(story => story.favorite);
 
-  // loop through all of our stories and generate HTML for them
+  // generate HTML for stories and append to stories list
   for (let story of favorited) {
     const $story = generateStoryMarkup(story);
+    updateStarIcon(story, $story);
     $allStoriesList.append($story);
   }
-
   $allStoriesList.show();
 }
 
@@ -84,29 +86,38 @@ async function handleStorySubmit(evt) {
 $storyForm.on('submit', handleStorySubmit);
 
 function handleStarClick(evt) {
-  evt.preventDefault();
-  console.log("a start was clicked");
-
   let idToLookFor = $(evt.target).parent().attr("id")
-  let storyToUpdate = storyFromStoryId(idToLookFor);
+  let storyToUpdate = findStoryFromStoryId(idToLookFor);
 
-  currentUser.addFavorite(storyToUpdate);
-  
-  //console.log($(evt.target).parent().data("story"))
-  //console.log($(evt.target).parent().data())
-  //console.log($(evt.target).parent().attr("id"))
-
-  console.log($(evt.target).parent().attr("data-story"))
-
+  if (storyToUpdate.favorite) {
+    currentUser.deleteFavorite(storyToUpdate);
+    $(evt.target).addClass('hidden');
+    $(evt.target).prev().removeClass('hidden');
+  } else {
+    currentUser.addFavorite(storyToUpdate);
+    $(evt.target).addClass('hidden');
+    $(evt.target).next().removeClass('hidden');
+  }
 }
 
 $allStoriesList.on('click', ".fa-star", handleStarClick);
 
-function storyFromStoryId(storyId) {
+//TODO: MAKE THIS A STORYLIST CLASS METHOD
+function findStoryFromStoryId(storyId) {
   for (let story of storyList.stories) {
     if (story.storyId === storyId) {
       return story
     }
+  }
+}
+
+function updateStarIcon(story, $story) {
+  if (story.favorite) {
+    $story.children('.far').addClass('hidden');
+    $story.children('.fas').removeClass('hidden');
+  } else {
+    $story.children('.fas').addClass('hidden');
+    $story.children('.far').removeClass('hidden');
   }
 }
 

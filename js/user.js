@@ -109,29 +109,28 @@ function saveUserCredentialsInLocalStorage() {
  * - generate the user profile part of the page
  */
 
-function currentUserPopulateFavorites() {
+/** Updates stories' favorite boolean to true if they belong to the current user's favorites */
+function currentUserAssignFavorites() {
+  //QUESTION: shouldn't favorite stories in currentUser object be the same object as the stories in the storyList?
+  //no, cause making new instance of story in user constructor
   let favs = currentUser.favorites;
-  let stories = storyList.stories
+  let stories = storyList.stories;
+
 
   for (let i = 0; i < favs.length; i++) {
     for (let j = 0; j < stories.length; j++) {
       if (favs[i].storyId === stories[j].storyId) {
-        stories.favorite = true;
+        stories[j].favorite = true;
+        updateStarIcon(stories[j], $allStoriesList.find(`#${stories[j].storyId}`))
       }
     }
   }
-
-  console.log("to check if favorites are populated in storyList" + stories)
-  console.log("to check if favorites are populated in favs" + favs)
+  console.log('favs', currentUser.favorites);
 }
 
 function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
-
-  //populate favorites 
-  currentUserPopulateFavorites();
-
+  currentUserAssignFavorites();
   $allStoriesList.show();
-
   updateNavOnLogin();
 }

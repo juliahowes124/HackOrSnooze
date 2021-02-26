@@ -46,7 +46,6 @@ $navSubmit.on("click", navNewStoryClick);
 
 function navFavoritesClick(evt) {
   console.debug("navFavoritesClick", evt);
-  //hidePageComponents();
   putFavoritesOnPage();
 }
 
