@@ -84,6 +84,19 @@ class StoryList {
     this.stories.push(newStory);
     return newStory;
   }
+
+  //async deleteStory(currentUser, story) {
+  async deleteStory(story) {
+    console.log("the story passed in was: " + story)
+    const response = await axios({
+      url: `${BASE_URL}/stories/${story.storyId}`,
+      method: "DELETE",
+      data: { token: currentUser.loginToken }
+    });
+    console.log(response);
+  }
+
+
 }
 
 

@@ -24,7 +24,10 @@ function generateStoryMarkup(story) {
   //TODO: CHANGE TO ONE ICON CHANGE FAR/FAS CLASS
   const hostName = story.getHostName();
   return $(`
-      <li id="${story.storyId}" data-story="${story}">
+      <li id="${story.storyId}">
+        <span>
+          <i class="fas fa-trash"></i>
+        </span>
         <i class="far fa-star"></i>
         <i class="fas fa-star"></i>
         <a href="${story.url}" target="a_blank" class="story-link">
@@ -38,6 +41,7 @@ function generateStoryMarkup(story) {
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
+
 
 function putStoriesOnPage() {
   console.debug("putStoriesOnPage");
@@ -119,5 +123,17 @@ function updateStarIcon(story, $story) {
     $story.children('.fas').addClass('hidden');
     $story.children('.far').removeClass('hidden');
   }
+  console.log($story.children('.fas').find('.fa-star'));
 }
+
+function handleTrashClick(evt) {
+  //maybe 2 parents
+  let idToLookFor = $(evt.target).parent().parent().attr("id")
+  storyToDelete = findStoryFromStoryId(idToLookFor)
+  storyList.deleteStory(storyToDelete)
+}
+
+$allStoriesList.on('click', ".fa-trash", handleTrashClick);
+
+
 
