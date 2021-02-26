@@ -16,6 +16,11 @@ const $navUserProfile = $("#nav-user-profile");
 const $navLogOut = $("#nav-logout");
 const $navSubmit = $("#nav-submit");
 
+const $navFavorites = $("#nav-favorites");
+
+//const $starClick = $(".fa-star");
+
+
 /** To make it easier for individual components to show just themselves, this
  * is a useful function that hides pretty much everything on the page. After
  * calling this, individual components can re-show just what they want.
@@ -50,3 +55,16 @@ console.warn("HEY STUDENT: This program sends many debug messages to" +
   " seeing those helpful debug messages. In your browser console, click on" +
   " menu 'Default Levels' and add Verbose");
 $(start);
+
+
+
+/**
+ * 
+ * TODO: 
+ * 
+ * current problem: changing favorite boolean value does not persist.
+ * currently populated list of currentUser still shows favorites in array that are false.
+ * 
+ * 
+ * 
+ */

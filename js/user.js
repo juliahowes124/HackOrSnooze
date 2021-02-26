@@ -21,6 +21,8 @@ async function login(evt) {
   // which we'll make the globally-available, logged-in user.
   currentUser = await User.login(username, password);
 
+  //here - call populate favorites
+
   $loginForm.trigger("reset");
 
   saveUserCredentialsInLocalStorage();
@@ -107,8 +109,27 @@ function saveUserCredentialsInLocalStorage() {
  * - generate the user profile part of the page
  */
 
+function currentUserPopulateFavorites() {
+  let favs = currentUser.favorites;
+  let stories = storyList.stories
+
+  for (let i = 0; i < favs.length; i++) {
+    for (let j = 0; j < stories.length; j++) {
+      if (favs[i].storyId === stories[j].storyId) {
+        stories.favorite = true;
+      }
+    }
+  }
+
+  console.log("to check if favorites are populated in storyList" + stories)
+  console.log("to check if favorites are populated in favs" + favs)
+}
+
 function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
+
+  //populate favorites 
+  currentUserPopulateFavorites();
 
   $allStoriesList.show();
 

@@ -19,6 +19,7 @@ class Story {
     this.url = url;
     this.username = username;
     this.createdAt = createdAt;
+    this.favorite = false;
   }
 
   /** Parses hostname out of URL and returns it. */
@@ -198,4 +199,46 @@ class User {
       return null;
     }
   }
+
+  async addFavorite(story) {
+    story.favorite = true;
+    this.favorites.push(story);
+
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "POST",
+      data: { token: this.loginToken },
+    });
+
+  }
+
+  async deleteFavorite(story) {
+    story.favorite = false;
+
+    for (let idx = 0; idx < this.favorites.length; idx++) {
+      if (this.favorites[idx].storyId === story.storyId) {
+        this.favorites.splice(idx)
+        break;
+      }
+    }
+
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "DELETE",
+      data: { token: this.loginToken },
+    });
+  }
+
+  // currentUserPopulateFavorites() {
+  //   for (let i = 0; i < this.favorites.length; i++) {
+  //     for (let j = 0; j < storyList.length; j++) {
+  //       if (this.favorites[i].storyId === storyList[j].storyId) {
+  //         storyList.favorite = true;
+  //       }
+  //     }
+  //   }
+  // }
+
 }
+
+
