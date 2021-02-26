@@ -129,7 +129,7 @@ function updateStarIcon(story, $story) {
 function handleTrashClick(evt) {
   //maybe 2 parents
   let idToLookFor = $(evt.target).parent().parent().attr("id")
-  storyToDelete = findStoryFromStoryId(idToLookFor)
+  let storyToDelete = findStoryFromStoryId(idToLookFor)
   storyList.deleteStory(storyToDelete)
 }
 
