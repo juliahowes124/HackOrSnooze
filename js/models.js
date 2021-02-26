@@ -56,7 +56,7 @@ class StoryList {
 
     // query the /stories endpoint (no auth required)
 
-    let response; 
+    let response;
 
     try {
       response = await axios({
@@ -67,7 +67,7 @@ class StoryList {
       alert("You could not get stories from server!")
       console.log(error);
     }
-    
+
 
     // turn plain old story objects from API into instances of Story class
     const stories = response.data.stories.map(story => new Story(story));
@@ -96,15 +96,12 @@ class StoryList {
     return newStory;
   }
 
-  //async deleteStory(currentUser, story) {
   async deleteStory(story) {
-    console.log("the story passed in was: " + story)
     await axios({
       url: `${BASE_URL}/stories/${story.storyId}`,
       method: "DELETE",
       data: { token: currentUser.loginToken }
     });
-    //try catch , await does nothing if not in try 
 
     for (let idx = 0; idx < this.stories.length; idx++) {
       if (this.stories[idx].storyId === story.storyId) {
@@ -114,6 +111,19 @@ class StoryList {
     }
     //rebuild stories array with filter method 
 
+  }
+
+  async editStory(story, newStoryInfo) {
+    let response = await axios({
+      url: `${BASE_URL}/stories/${story.storyId}`,
+      method: "PATCH",
+      data: {
+        token: currentUser.loginToken,
+        story: newStoryInfo
+      }
+    });
+
+    console.log(response);
   }
 
 

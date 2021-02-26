@@ -111,8 +111,6 @@ function saveUserCredentialsInLocalStorage() {
 
 /** Updates stories' favorite boolean to true if they belong to the current user's favorites */
 function currentUserAssignFavorites() {
-  //QUESTION: shouldn't favorite stories in currentUser object be the same object as the stories in the storyList?
-  //no, cause making new instance of story in user constructor
   let favs = currentUser.favorites;
   let stories = storyList.stories;
 
@@ -125,7 +123,6 @@ function currentUserAssignFavorites() {
       }
     }
   }
-  console.log('favs', currentUser.favorites);
 }
 
 function updateUIOnUserLogin() {

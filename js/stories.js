@@ -90,6 +90,7 @@ function putMyStoriesOnPage() {
     const $story = generateStoryMarkup(story);
     updateStarIcon(story, $story);
     $story.find('.fa-trash').removeClass('hidden'); // or create trash can
+    $story.append('<button class="edit-btn">Edit</button>');
     $allStoriesList.append($story);
   }
   $allStoriesList.show();
@@ -149,7 +150,6 @@ function updateStarIcon(story, $story) {
     $story.children('.fas').addClass('hidden');
     $story.children('.far').removeClass('hidden');
   }
-  console.log($story.children('.fas').find('.fa-star'));
 }
 
 function handleTrashClick(evt) {
@@ -161,5 +161,29 @@ function handleTrashClick(evt) {
 
 $allStoriesList.on('click', ".fa-trash", handleTrashClick);
 
+function handleEditClick(evt) {
+  $(evt.target).parent().append(generateEditForm());
+}
 
+function generateEditForm() {
+  return `
+  <input placeholder='title'></input>
+  <input placeholder='author'></input>
+  <button class="edit-submit-btn">Submit</button>`
+}
+
+$allStoriesList.on('click', ".edit-btn", handleEditClick);
+
+function handleEditSubmitClick(evt) {
+  let idToLookFor = $(evt.target).parent().attr("id");
+  let storyToEdit = findStoryFromStoryId(idToLookFor);
+  let inputFields = $(evt.target).parent().find('input');
+  let newStoryData = {
+    title: inputFields[0].value || undefined,
+    author: inputFields[1].value || undefined
+  }
+  storyList.editStory(storyToEdit, newStoryData);
+}
+
+$allStoriesList.on('click', ".edit-submit-btn", handleEditSubmitClick);
 
