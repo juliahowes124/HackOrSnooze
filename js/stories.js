@@ -82,9 +82,7 @@ function putMyStoriesOnPage() {
   console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
-
   let myStories = storyList.stories.filter(story => story.username === currentUser.username);
-
   // generate HTML for stories and append to stories list
   for (let story of myStories) {
     const $story = generateStoryMarkup(story);
@@ -98,8 +96,6 @@ function putMyStoriesOnPage() {
 
 
 //could merge above two with input stories and a flag - not really worth it
-
-
 
 /** grabs form values, adds new story and prepends to list */
 async function handleStorySubmit(evt) {
@@ -174,7 +170,7 @@ function generateEditForm() {
 
 $allStoriesList.on('click', ".edit-btn", handleEditClick);
 
-function handleEditSubmitClick(evt) {
+async function handleEditSubmitClick(evt) {
   let idToLookFor = $(evt.target).parent().attr("id");
   let storyToEdit = findStoryFromStoryId(idToLookFor);
   let inputFields = $(evt.target).parent().find('input');
@@ -182,8 +178,8 @@ function handleEditSubmitClick(evt) {
     title: inputFields[0].value || undefined,
     author: inputFields[1].value || undefined
   }
-  storyList.editStory(storyToEdit, newStoryData);
+  await storyList.editStory(storyToEdit, newStoryData); //need to await so that putMyStoriesOnPage isn't called until request is complete
+  putMyStoriesOnPage();
 }
 
 $allStoriesList.on('click', ".edit-submit-btn", handleEditSubmitClick);
-

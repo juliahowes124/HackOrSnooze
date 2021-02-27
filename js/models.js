@@ -122,8 +122,12 @@ class StoryList {
         story: newStoryInfo
       }
     });
-
-    console.log(response);
+    for (let idx = 0; idx < this.stories.length; idx++) {
+      if (this.stories[idx].storyId === story.storyId) {
+        this.stories[idx] = new Story(response.data.story);
+        break;
+      }
+    }
   }
 
 
