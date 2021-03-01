@@ -182,4 +182,15 @@ async function handleEditSubmitClick(evt) {
   putMyStoriesOnPage();
 }
 
+async function handleScrollDown(evt) {
+  let newStoryList = await StoryList.getStories(storyList.stories.length);
+  storyList.stories = storyList.stories.concat(newStoryList.stories);
+  putStoriesOnPage();
+}
+
 $allStoriesList.on('click', ".edit-submit-btn", handleEditSubmitClick);
+$(window).scroll(() => {
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    handleScrollDown();
+  }
+});
