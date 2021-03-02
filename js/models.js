@@ -60,7 +60,7 @@ class StoryList {
 
     try {
       response = await axios({
-        url: `${BASE_URL}/stories?skip=${skipAmount}`,
+        url: `${BASE_URL}/stories?skip=${skipAmount}&limit=6`,
         method: "GET",
       });
     } catch (error) {
@@ -170,22 +170,27 @@ class User {
    */
 
   static async signup(username, password, name) {
-    const response = await axios({
-      url: `${BASE_URL}/signup`,
-      method: "POST",
-      data: { user: { username, password, name } },
-    });
-
-    return new User(
-      {
-        username: user.username,
-        name: user.name,
-        createdAt: user.createdAt,
-        favorites: user.favorites,
-        ownStories: user.stories
-      },
-      response.data.token
-    );
+    try {
+      const response = await axios({
+        url: `${BASE_URL}/signup`,
+        method: "POST",
+        data: { user: { username, password, name } },
+      });
+      return new User(
+        {
+          username: user.username,
+          name: user.name,
+          createdAt: user.createdAt,
+          favorites: user.favorites,
+          ownStories: user.stories
+        },
+        response.data.token
+      );
+    } catch (err) {
+      if (err.response.status === 409) {
+        alert('Username is already taken')
+      }
+    }
   }
 
   /** Login in user with API, make User instance & return it.
@@ -195,24 +200,31 @@ class User {
    */
 
   static async login(username, password) {
-    const response = await axios({
-      url: `${BASE_URL}/login`,
-      method: "POST",
-      data: { user: { username, password } },
-    });
+    try {
+      const response = await axios({
+        url: `${BASE_URL}/login`,
+        method: "POST",
+        data: { user: { username, password } },
+      });
 
-    let { user } = response.data;
+      let { user } = response.data;
 
-    return new User(
-      {
-        username: user.username,
-        name: user.name,
-        createdAt: user.createdAt,
-        favorites: user.favorites,
-        ownStories: user.stories
-      },
-      response.data.token
-    );
+      return new User(
+        {
+          username: user.username,
+          name: user.name,
+          createdAt: user.createdAt,
+          favorites: user.favorites,
+          ownStories: user.stories
+        },
+        response.data.token
+      );
+    } catch (err) {
+      if (err.response.status === 401) {
+        alert('Incorrect username or password')
+      }
+    }
+
   }
 
   /** When we already have credentials (token & username) for a user,
