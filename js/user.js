@@ -20,7 +20,7 @@ async function login(evt) {
   // User.login retrieves user info from API and returns User instance
   // which we'll make the globally-available, logged-in user.
   currentUser = await User.login(username, password);
-
+  if (!currentUser) return;
   //here - call populate favorites
 
   $loginForm.trigger("reset");
@@ -44,7 +44,8 @@ async function signup(evt) {
   // User.signup retrieves user info from API and returns User instance
   // which we'll make the globally-available, logged-in user.
   currentUser = await User.signup(username, password, name);
-  if (!currentUser) return;
+
+
 
   saveUserCredentialsInLocalStorage();
   updateUIOnUserLogin();
@@ -130,5 +131,7 @@ function updateUIOnUserLogin() {
   console.debug("updateUIOnUserLogin");
   currentUserAssignFavorites();
   $allStoriesList.show();
+  $loginForm.hide();
+  $signupForm.hide();
   updateNavOnLogin();
 }

@@ -21,7 +21,7 @@
 
 .story-link {
   color: black;
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: normal;
   margin: 18px 0;
 }
@@ -36,4 +36,17 @@
 
 .story-user {
   display: block;
+}
+
+.story-form-btns {
+  margin-left: 4rem;
+  width: 300px;
+}
+
+.story-form-btns a {
+  float: right;
+}
+.story-form-btns button {
+  float: right;
+  margin-left: 1rem;
 }

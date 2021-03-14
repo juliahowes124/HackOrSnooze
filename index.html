@@ -24,6 +24,9 @@
       href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
       integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
       crossorigin="anonymous">
+  <link
+      href="https://bootswatch.com/4/united/bootstrap.css"
+      rel="stylesheet">
   <link rel="stylesheet" href="css/site.css">
   <link rel="stylesheet" href="css/user.css">
   <link rel="stylesheet" href="css/stories.css">
@@ -33,21 +36,23 @@
 <body>
 
 <!-- top navigation bar -->
-<nav>
-  <div class="navbar-brand">
-    <a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
-    <a href="#" id="nav-submit" class="nav-link">Sumbit</a>
-    <a href="#" id="nav-favorites" class="nav-link">Favorites</a>
-    <a href="#" id="nav-my-stories" class="nav-link">My Stories</a>
-  </div>
-  <div class="nav-right">
-    <a class="nav-link" href="#" id="nav-login">login/signup</a>
-    <a class="nav-link" href="#" id="nav-user-profile"></a>
-    <a class="hidden" id="nav-logout" href="#"><small>(logout)</small></a>
+<nav class="navbar navbar-expand-lg bg-primary">
+  <div class="nav-div">
+    <div class="d-flex flex-row">
+      <a class="nav-link navbar-brand" href="#" id="nav-all">Hack or Snooze</a>
+      <a href="#" id="nav-submit" class="nav-link">Sumbit</a>
+      <a href="#" id="nav-favorites" class="nav-link">Favorites</a>
+      <a href="#" id="nav-my-stories" class="nav-link">My Stories</a>
+    </div>
+    <div>
+      <a class="nav-link" href="#" id="nav-login">login/signup</a>
+      <a class="nav-link" href="#" id="nav-user-profile"></a>
+      <a class="nav-link hidden" id="nav-logout" href="#"><small>( logout )</small></a>
+    </div>
   </div>
 </nav>
 
-<section class="container">
+<section class="container-fluid">
   <!-- New Story form -->
   <form action="#" id="story-form" class="story-form hidden" method="post">
     <div class="author-input">
@@ -62,24 +67,16 @@
       <label for="url">url</label>
       <input id="url" placeholder='story url'>
     </div>
-    <button type="submit">submit</button>
+    <div class="story-form-btns">
+      <button class="btn btn-primary" type="submit">submit</button>
+      <a class="btn btn-outline-secondary" id="cancel-btn">cancel</a>
+    </div>
     <hr>
   </form>
 </section>
 
-<!-- area for stories (all stories, user stories, favorites) -->
-<section class="stories-container container">
-
-  <!-- loading message (removed by JS after stories loaded) -->
-  <div id="stories-loading-msg">Loading&hellip;</div>
-
-  <!-- List of all stories -->
-  <ol id="all-stories-list" class="stories-list"></ol>
-
-</section>
-
 <!-- Login and signup forms -->
-<section class="account-forms-container container">
+<section class="account-forms-container container-fluid">
 
   <!-- Login form -->
   <form action="#" id="login-form" class="account-form hidden" method="post">
@@ -119,6 +116,26 @@
   </form>
 </section>
 
+
+<!-- area for stories (all stories, user stories, favorites) -->
+<section class="stories-container container-fluid">
+
+  <!-- loading message (removed by JS after stories loaded) -->
+  <div id="stories-loading-msg">Loading&hellip;</div>
+
+  <!-- List of all stories -->
+  <ol id="all-stories-list" class="stories-list"></ol>
+
+</section>
+
+
+<!-- User Info -->
+<section>
+  <div id="user-info" class="hidden">
+    <h3>User Profile Info</h3>
+  </div>
+</section>
+
 <!-- Library JS & our JS -->
 <script src="https://unpkg.com/jquery"></script>
 <script src="https://unpkg.com/axios/dist/axios.js"></script>
@@ -128,6 +145,7 @@
 <script src="js/nav.js"></script>
 <script src="js/user.js"></script>
 <script src="js/stories.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
 </body>
 </html>

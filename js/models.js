@@ -187,6 +187,7 @@ class User {
         response.data.token
       );
     } catch (err) {
+      console.log(err.response)
       if (err.response.status === 409) {
         alert('Username is already taken')
       }

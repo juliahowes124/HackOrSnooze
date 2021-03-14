@@ -25,6 +25,22 @@ function navLoginClick(evt) {
 
 $navLogin.on("click", navLoginClick);
 
+/** Show User info on click on "[username]" */
+function navUsernameClick() {
+  hidePageComponents();
+  const createdAt = currentUser.createdAt.split('T')[0]
+  $userInfo.empty();
+  $userInfo.show();
+  $userInfo.append(`<h3>User Info</h3>
+  <p>Name: ${currentUser.name}</p>
+  <p>Username: ${currentUser.username}</p>
+  <p>Account Created: ${createdAt}</p>`)
+}
+
+$navUserProfile.on('click', navUsernameClick);
+
+
+
 /** When a user first logins in, update the navbar to reflect that. */
 
 function updateNavOnLogin() {
@@ -38,6 +54,7 @@ function updateNavOnLogin() {
 /** Display new story form */
 function navNewStoryClick(evt) {
   $storyForm.show();
+  $userInfo.hide();
 }
 
 $navSubmit.on("click", navNewStoryClick);

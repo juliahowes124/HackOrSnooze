@@ -88,7 +88,7 @@ function putMyStoriesOnPage() {
     const $story = generateStoryMarkup(story);
     updateStarIcon(story, $story);
     $story.find('.fa-trash').removeClass('hidden'); // or create trash can
-    $story.append('<button class="edit-btn">Edit</button>');
+    $story.append('<button class="edit-btn btn btn-secondary" id="edit-btn">Edit</button>');
     $allStoriesList.append($story);
   }
   $allStoriesList.show();
@@ -158,14 +158,16 @@ function handleTrashClick(evt) {
 $allStoriesList.on('click', ".fa-trash", handleTrashClick);
 
 function handleEditClick(evt) {
+  $('#edit-btn').hide()
   $(evt.target).parent().append(generateEditForm());
+
 }
 
 function generateEditForm() {
   return `
   <input placeholder='title'></input>
   <input placeholder='author'></input>
-  <button class="edit-submit-btn">Submit</button>`
+  <button class="edit-submit-btn btn btn-primary">Submit</button>`
 }
 
 $allStoriesList.on('click', ".edit-btn", handleEditClick);
@@ -181,16 +183,23 @@ async function handleEditSubmitClick(evt) {
   await storyList.editStory(storyToEdit, newStoryData); //need to await so that putMyStoriesOnPage isn't called until request is complete
   putMyStoriesOnPage();
 }
+$allStoriesList.on('click', ".edit-submit-btn", handleEditSubmitClick);
 
 async function handleScrollDown(evt) {
-  let newStoryList = await StoryList.getStories(storyList.stories.length);
-  storyList.stories = storyList.stories.concat(newStoryList.stories);
-  putStoriesOnPage();
+  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+    console.debug("loading more stories...");
+    $(window).unbind('scroll');
+    let newStoryList = await StoryList.getStories(storyList.stories.length);
+    storyList.stories = storyList.stories.concat(newStoryList.stories);
+    putStoriesOnPage();
+    $(window).scroll(handleScrollDown);
+  }
 }
 
-$allStoriesList.on('click', ".edit-submit-btn", handleEditSubmitClick);
-$(window).scroll(() => {
-  if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-    handleScrollDown();
-  }
-});
+$(window).scroll(handleScrollDown)
+
+function handleCancelSubmit(evt) {
+  console.log('clicked')
+  $storyForm.hide();
+}
+$cancelSubmitBtn.on('click', handleCancelSubmit);

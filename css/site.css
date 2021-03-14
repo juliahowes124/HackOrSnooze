@@ -1,10 +1,5 @@
 /* General typography */
 
-body {
-  font-family: Arimo, sans-serif;
-  margin: 8px 7.5vw;
-}
-
 h1 {
   font-size: 1.1rem;
   margin: 0;
@@ -37,7 +32,6 @@ a:hover {
   display: flex;
   flex-direction: column;
   align-self: center;
-  background-color: #f6f6ef;
 }
 
 .hidden {
@@ -50,7 +44,6 @@ a:hover {
 form {
   display: flex;
   flex-direction: column;
-  margin: 8px 18px 0;
 }
 
 form > * {
@@ -109,7 +102,7 @@ form > hr {
 
 /* responsive queries for tightening things up for mobile. */
 
-@media screen and (max-width: 576px) {
+/* @media screen and (max-width: 576px) {
   body {
     margin: 0;
   }
@@ -120,4 +113,4 @@ form > hr {
     max-width: 900px;
     margin: 8px auto;
   }
-}
+} */
