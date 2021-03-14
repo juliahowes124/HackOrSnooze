@@ -20,7 +20,6 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  // console.debug("generateStoryMarkup", story);
   //TODO: CHANGE TO ONE ICON CHANGE FAR/FAS CLASS
   const hostName = story.getHostName();
   return $(`
@@ -42,9 +41,7 @@ function generateStoryMarkup(story) {
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
-
 function putStoriesOnPage() {
-  console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
 
@@ -61,7 +58,6 @@ function putStoriesOnPage() {
 /** Gets favorited stories, generates their HTML, and puts on page. */
 
 function putFavoritesOnPage() {
-  console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
 
@@ -79,7 +75,6 @@ function putFavoritesOnPage() {
 /** Gets own stories, generates their HTML, and puts on page. */
 
 function putMyStoriesOnPage() {
-  console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
   let myStories = storyList.stories.filter(story => story.username === currentUser.username);
@@ -187,7 +182,6 @@ $allStoriesList.on('click', ".edit-submit-btn", handleEditSubmitClick);
 
 async function handleScrollDown(evt) {
   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-    console.debug("loading more stories...");
     $(window).unbind('scroll');
     let newStoryList = await StoryList.getStories(storyList.stories.length);
     storyList.stories = storyList.stories.concat(newStoryList.stories);
@@ -199,7 +193,6 @@ async function handleScrollDown(evt) {
 $(window).scroll(handleScrollDown)
 
 function handleCancelSubmit(evt) {
-  console.log('clicked')
   $storyForm.hide();
 }
 $cancelSubmitBtn.on('click', handleCancelSubmit);
