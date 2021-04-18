@@ -1,7 +1,7 @@
 "use strict";
 
 // So we don't have to keep re-finding things on page, find DOM elements once:
-//TODO: make sure all jquery objects are initialized here
+//IMPROVEMENT: make sure all jquery objects are initialized here
 const $body = $("body");
 
 const $storiesLoadingMsg = $("#stories-loading-msg");

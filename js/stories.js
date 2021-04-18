@@ -20,7 +20,7 @@ async function getAndShowStoriesOnStart() {
  */
 
 function generateStoryMarkup(story) {
-  //TODO: CHANGE TO ONE ICON CHANGE FAR/FAS CLASS
+  //IMPROVEMENT: CHANGE TO ONE ICON CHANGE FAR/FAS CLASS
   const hostName = story.getHostName();
   return $(`
       <li id="${story.storyId}">
@@ -82,7 +82,7 @@ function putMyStoriesOnPage() {
   for (let story of myStories) {
     const $story = generateStoryMarkup(story);
     updateStarIcon(story, $story);
-    $story.find('.fa-trash').removeClass('hidden'); // or create trash can
+    $story.find('.fa-trash').removeClass('hidden'); // IMPROVEMENT: CREATE AND APPEND TRASH ICON INSTEAD
     $story.append('<button class="edit-btn btn btn-secondary" id="edit-btn">Edit</button>');
     $allStoriesList.append($story);
   }
@@ -90,7 +90,7 @@ function putMyStoriesOnPage() {
 }
 
 
-//could merge above two with input stories and a flag - not really worth it
+//IMPROVEMENT: could merge above two with input stories and a flag
 
 /** grabs form values, adds new story and prepends to list */
 async function handleStorySubmit(evt) {
@@ -124,7 +124,7 @@ function handleStarClick(evt) {
 
 $allStoriesList.on('click', ".fa-star", handleStarClick);
 
-//TODO: MAKE THIS A STORYLIST CLASS METHOD
+//IMPROVEMENT: COULD MAKE THIS A STORYLIST CLASS METHOD
 function findStoryFromStoryId(storyId) {
   for (let story of storyList.stories) {
     if (story.storyId === storyId) {
@@ -144,8 +144,8 @@ function updateStarIcon(story, $story) {
 }
 
 function handleTrashClick(evt) {
-  let idToLookFor = $(evt.target).parent().parent().attr("id") //closest
-  let storyToDelete = findStoryFromStoryId(idToLookFor) // or storyList.stories.find()
+  let idToLookFor = $(evt.target).parent().parent().attr("id") //IMPROVEMENT: or closest
+  let storyToDelete = findStoryFromStoryId(idToLookFor) // IMPROVEMENT: or storyList.stories.find()
   storyList.deleteStory(storyToDelete);
   $(evt.target).parent().parent().remove();
 }

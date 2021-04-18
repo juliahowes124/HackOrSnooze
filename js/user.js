@@ -20,7 +20,6 @@ async function login(evt) {
   // which we'll make the globally-available, logged-in user.
   currentUser = await User.login(username, password);
   if (!currentUser) return;
-  //here - call populate favorites
 
   $loginForm.trigger("reset");
 
